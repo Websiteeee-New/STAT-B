@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title> STATISTIKA </title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
+    body {
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+    }
+
+    .student-card {
+      transition: all 0.3s ease;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      background: rgba(255 255 255 / 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255 255 255 / 0.2);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .student-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .student-image {
+      height: 250px;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+      border-radius: 12px;
+      flex-shrink: 0;
+      width: 100%;
+      max-width: 300px;
+      user-select: none;
+      cursor: pointer;
+    }
+
+    .student-card:hover .student-image {
+      transform: scale(1.05);
+    }
+
+    .badge {
+      transition: all 0.3s ease;
+    }
+
+    .student-card:hover .badge {
+      transform: scale(1.1);
+    }
+
+    .floating {
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%,
+      100% {
+        transform: translateY(0px);
+      }
+      50% {
+        transform: translateY(-20px);
+      }
+    }
+
+    /* Improved Scroll container styling for better responsiveness */
+    .scroll-container {
+      display: flex;
+      overflow-x: auto;
+      gap: 1rem;
+      padding: 1rem;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255 255 255 / 0.3) rgba(255 255 255 / 0.1);
+    }
+
+    .scroll-container::-webkit-scrollbar {
+      height: 8px;
+    }
+    .scroll-container::-webkit-scrollbar-track {
+      background: rgba(255 255 255 / 0.1);
+      border-radius: 9999px;
+    }
+    .scroll-container::-webkit-scrollbar-thumb {
+      background-color: rgba(255 255 255 / 0.3);
+      border-radius: 9999px;
+    }
+
+    /* Table improvements */
+    .table-container {
+      overflow-x: auto;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    th, td {
+      padding: 12px 16px;
+      text-align: left;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    th {
+      background: rgba(255, 255, 255, 0.1);
+      font-weight: 600;
+    }
+
+    tr:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    /* Stats section enhancements */
+    .stats-card {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 2rem;
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+
+    .stats-card:hover {
+      transform: scale(1.05);
+    }
+     /* Container logo IG floating */
+  .ig-floating {
+    position: fixed;
+    bottom: 20px;   /* jarak dari bawah */
+    right: 20px;    /* jarak dari kanan */
+    width: 40px;    /* ukuran logo */
+    height: 40px;
+    z-index: 1000;  /* agar selalu di atas konten */
+    transition: transform 0.3s, opacity 0.3s;
+  }
+
+  /* Logo IG */
+  .ig-floating img {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  /* Hover effect */
+  .ig-floating:hover {
+    transform: scale(1.2); /* membesar sedikit */
+    opacity: 0.8;           /* sedikit transparan */
+  }
+  </style>
+</head>
+<body class="min-h-screen py-12 px-4">
+  <!-- Audio autoplay -->
+  <audio id="background-audio" autoplay loop muted playsinline>
+    <source src="gacor.mp3" type="audio/mpeg" />
+  </audio>
+
+  <script>
+    document.body.addEventListener('click', function () {
+      const audio = document.getElementById('background-audio');
+      if (audio.muted) {
+        audio.muted = false;
+        audio.play();
+      }
+    }, { once: true });
+  </script>
+
+  <div class="max-w-7xl mx-auto">
+    <!-- Header Section -->
+    <header class="text-center mb-16">
+      <div class="floating inline-block mb-6">
+        <div class="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center mx-auto">
+          <i class="fas fa-graduation-cap text-4xl text-white"></i>
+        </div>
+      </div>
+      <h1 class="text-5xl font-bold text-white mb-2 drop-shadow-lg">TORANG STATISTIKA</h1>
+      
+      <center>
+        <!-- FOTO FAKULTAS -->
+      <img src="mipa.png" alt="Foto Korelasi 2" class="student-image" loading="lazy" />
+      </center>
+
+      <p class="text-xl text-white/90 max-w-3xl mx-auto leading-relaxed">
+        Selamat datang di Website kami Statistika B, di sini hanya ada Foto-Foto
+      </p>
+      <a href="https://www.instagram.com/modeofunity.b/" target="_blank" class="ig-floating">
+  <img src="ig.jpg" alt="Instagram Kelas">
+</a>
+
+    </header>
+
+    <!-- Students Grid -->
+    <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+      <!-- Card 1: Korelasi -->
+      <article class="student-card">
+        <div class="scroll-container">
+          <img src="pp2.jpg" alt="Foto Korelasi 2" class="student-image" loading="lazy" />
+          <img src="coba3.jpg" alt="Foto Korelasi 3" class="student-image" loading="lazy" />
+          <img src="pp4.jpg" alt="Foto Korelasi 1" class="student-image" loading="lazy" />
+          <img src="pp5.jpg" alt="Foto Korelasi 1" class="student-image" loading="lazy" />
+        </div>
+        <div class="p-6 flex flex-col flex-grow justify-between">
+          <div>
+            <h2 class="text-2xl font-bold text-white mb-2">KORELASI</h2>
+            <p class="text-white/80 mb-4">Foto Bersama Saat Korelasi</p>
+          </div>
+          <span class="badge bg-red-500 text-white px-4 py-2 rounded-full text-sm self-start">MASA KORELASI</span>
+        </div>
+      </article>
+
+      <!-- Card 2: Ngumpul -->
+      <article class="student-card">
+        <div class="scroll-container">
+          <img src="ngumpul1.jpg" alt="Foto Ngumpul 1" class="student-image" loading="lazy" />
+          <img src="ngumpul2.jpg" alt="Foto Ngumpul 2" class="student-image" loading="lazy" />
+          <img src="ngumpul3.jpg" alt="Foto Ngumpul 3" class="student-image" loading="lazy" />
+        </div>
+        <div class="p-6 flex flex-col flex-grow justify-between">
+          <div>
+            <h2 class="text-2xl font-bold text-white mb-2">Foto Bersama Di Rumah Key</h2>
+            <p class="text-white/80 mb-4">Habis Monga Bersama</p>
+          </div>
+          <span class="badge bg-yellow-500 text-white px-4 py-2 rounded-full text-sm self-start">NGUMPUL BARENG</span>
+        </div>
+      </article>
+
+      <!-- Card 3: Statistics Got-Talent -->
+      <article class="student-card">
+        <div class="scroll-container">
+          <img src="minat1.jpg" alt="Statistics Got-Talent 1" class="student-image" loading="lazy" />
+          <img src="minat2.jpg" alt="Statistics Got-Talent 2" class="student-image" loading="lazy" />
+        </div>
+        <div class="p-6 flex flex-col flex-grow justify-between">
+          <div>
+            <h2 class="text-2xl font-bold text-white mb-2">STATISTICS GOT-TALENT</h2>
+            <p class="text-white/80 mb-4">Foto Bersama Bersama Kating Saat Agenda</p>
+          </div>
+          <span class="badge bg-red-500 text-white px-4 py-2 rounded-full text-sm self-start">Foto Bersama Kating Kelas B</span>
+        </div>
+      </article>
+
+      <!-- Card 4: Metode Statistika -->
+      <article class="student-card">
+        <div class="scroll-container">
+          <img src="ms.jpg" alt="Foto Metode Statistika 1" class="student-image" loading="lazy" />
+          <img src="ms2.jpg" alt="Foto Metode Statistika 2" class="student-image" loading="lazy" />
+        </div>
+        <div class="p-6 flex flex-col flex-grow justify-between">
+          <div>
+            <h2 class="text-2xl font-bold text-white mb-2">Metode Statistika</h2>
+            <p class="text-white/80 mb-4">FOTO BERSAMA KELAS B SESUDAH MK</p>
+          </div>
+          <span class="badge bg-yellow-500 text-white px-4 py-2 rounded-full text-sm self-start">FOTO BARENG</span>
+        </div>
+      </article>
+
+      <!-- Card 5: Fisika Dasar -->
+      <article class="student-card">
+        <div class="scroll-container">
+          <img src="fd.jpg" alt="Foto Fisika Dasar 1" class="student-image" loading="lazy" />
+          <img src="fd2.jpg" alt="Foto Fisika Dasar 2" class="student-image" loading="lazy" />
+          <img src="fd3.jpg" alt="Foto Fisika Dasar 3" class="student-image" loading="lazy" />
+          <img src="fd4.jpg" alt="Foto Fisika Dasar 4" class="student-image" loading="lazy" />
+        </div>
+        <div class="p-6 flex flex-col flex-grow justify-between">
+          <div>
+            <h2 class="text-2xl font-bold text-white mb-2">Foto Bersama Di Kelas</h2>
+            <p class="text-white/80 mb-4">Selesai MK Fisika Dasar</p>
+          </div>
+          <span class="badge bg-red-500 text-white px-4 py-2 rounded-full text-sm self-start">Foto Bersama</span>
+        </div>
+      </article>
+
+      <!-- Card 6: Kerja Tugas -->
+      <article class="student-card">
+        <div class="scroll-container">
+          <img src="1.jpg" alt="Kerja Tugas Bersama 1" class="student-image" loading="lazy" />
+          <img src="2.jpg" alt="Kerja Tugas Bersama 2" class="student-image" loading="lazy" />
+        </div>
+        <div class="p-6 flex flex-col flex-grow justify-between">
+          <div>
+            <h2 class="text-2xl font-bold text-white mb-2">KERJA TUGAS BERSAMA</h2>
+            <p class="text-white/80 mb-4">Dokumen Tugas Kerja Tugas Bersama</p>
+          </div>
+          <span class="badge bg-red-500 text-white px-4 py-2 rounded-full text-sm self-start">KERJA TUGAS</span>
+        </div>
+      </article>
+
+      <!-- Card 7: Perintis -->
+      <article class="student-card">
+        <div class="scroll-container">
+          <img src="p.jpg" alt="Foto Perintis 1" class="student-image" loading="lazy" />
+          <img src="p2.jpg" alt="Foto Perintis 2" class="student-image" loading="lazy" />
+          <img src="p3.jpg" alt="Foto Perintis 3" class="student-image" loading="lazy" />
+        </div>
+        <div class="p-6 flex flex-col flex-grow justify-between">
+          <div>
+            <h2 class="text-2xl font-bold text-white mb-2">Foto Bersama Di Perintis</h2>
+            <p class="text-white/80 mb-4">Fotbar Perintis</p>
+          </div>
+          <span class="badge bg-yellow-500 text-white px-4 py-2 rounded-full text-sm self-start">FOTO BERSAMA</span>
+        </div>
+      </article>
+
+
+
+      <!-- Card 8: Bonus -->
+      <article class="student-card">
+        <div class="scroll-container">
+          <img src="bonus.jpg" alt="Bonus Foto 1" class="student-image" loading="lazy" />
+          <img src="bonus2.jpg" alt="Bonus Foto 2" class="student-image" loading="lazy" />
+          <img src="bonus3.jpg" alt="Bonus Foto 3" class="student-image" loading="lazy" />
+          <img src="bonus4.jpg" alt="Bonus Foto 4" class="student-image" loading="lazy" />
+          <img src="bonus5.jpg" alt="Bonus Foto 5" class="student-image" loading="lazy" />
+          <img src="bonus6.jpg" alt="Bonus Foto 6" class="student-image" loading="lazy" />
+        </div>
+        <div class="p-6 flex flex-col flex-grow justify-between">
+          <div>
+            <h2 class="text-2xl font-bold text-white mb-2">FOTO DAN SELFI LAINNYA (BONUS)</h2>
+            <p class="text-white/80 mb-4">Maaf ya teman-teman</p>
+          </div>
+          <span class="badge bg-blue-500 text-white px-4 py-2 rounded-full text-sm self-start">BONUS GALLERY</span>
+        </div>
+      </article>
+    </section>
+
+    <!-- Class Statistics -->
+    <section class="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+      <div class="stats-card">
+        <div class="text-4xl font-bold text-white mb-2">18</div>
+        <div class="text-white/80">Siswa</div>
+      </div>
+      <div class="stats-card">
+        <div class="text-4xl font-bold text-white mb-2">16</div>
+        <div class="text-white/80">Dosen</div>
+      </div>
+      <div class="stats-card">
+        <div class="text-4xl font-bold text-white mb-2">8</div>
+        <div class="text-white/80">Matkul</div>
+      </div>
+      <div class="stats-card">
+        <div class="text-4xl font-bold text-white mb-2">95%</div>
+        <div class="text-white/80">Kehadiran</div>
+      </div>
+    </section>
+
+    <!-- Daftar Nama Mahasiswa dan NIM -->
+    <section class="mt-12 bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-8 max-w-6xl mx-auto mb-16">
+      <h2 class="text-3xl font-bold text-white mb-6 text-center">Daftar Nama Mahasiswa dan NIM</h2>
+      <div class="table-container">
+        <table class="min-w-full text-left text-white/90">
+          <thead>
+            <tr class="border-b border-white/30">
+              <th class="py-3 px-4 font-semibold">No</th>
+              <th class="py-3 px-4 font-semibold">Nama Mahasiswa</th>
+              <th class="py-3 px-4 font-semibold">NIM</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-white/20 hover:bg-white/10">
+              <td class="py-2 px-4">1</td>
+              <td class="py-2 px-4">Andika Rezky Putra Alim</td>
+              <td class="py-2 px-4">04103425035</td>
+            </tr>
+            <tr class="border-b border-white/20 hover:bg-white/10" 
+    onclick="window.open('https://www.instagram.com/ftragiasi/', '_blank')">
+              <td class="py-2 px-4">2</td>
+              <td class="py-2 px-4">Fitra Giasi</td>
+              <td class="py-2 px-4">04103425036</td>
+            </tr>
+            <tr class="border-b border-white/20 hover:bg-white/10" 
+    onclick="window.open('https://www.instagram.com/abyuno_/', '_blank')">
+              <td class="py-2 px-4">3</td>
+              <td class="py-2 px-4">Muhammad Abdillah Uno</td>
+              <td class="py-2 px-4">04103425032</td>
+            </tr>
+
+            <tr class="border-b border-white/20 hover:bg-white/10" 
+    onclick="window.open('https://www.instagram.com/rahmatumarr_/', '_blank')">
+  <td class="py-2 px-4">4</td>
+  <td class="py-2 px-4">Rahmat Maulana Umar</td>
+  <td class="py-2 px-4">04103425057</td>
+</tr>
+
+            <tr class="border-b border-white/20 hover:bg-white/10" 
+    onclick="window.open('https://www.instagram.com/twoalff_/', '_blank')">
+              <td class="py-2 px-4">5</td>
+              <td class="py-2 px-4">Alfiani</td>
+              <td class="py-2 px-4">04103425044</td>
+            </tr>
+            <tr class="border-b border-white/20 hover:bg-white/10" 
+    onclick="window.open('https://www.instagram.com/arumysf_/', '_blank')">
+              <td class="py-2 px-4">6</td>
+              <td class="py-2 px-4">Arum Kusmawati Yusuf</td>
+              <td class="py-2 px-4">04103425051</td>
+            </tr>
+            <tr class="border-b border-white/20 hover:bg-white/10" 
+    onclick="window.open('https://www.instagram.com/lnpnr__/', '_blank')">
+              <td class="py-2 px-4">7</td>
+              <td class="py-2 px-4">Fadlun Panigoro</td>
+              <td class="py-2 px-4">04103425006</td>
+            </tr>
+            <tr class="border-b border-white/20 hover:bg-white/10">
+              <td class="py-2 px-4">8</td>
+              <td class="py-2 px-4">Fistiana S Bonde</td>
+              <td class="py-2 px-4">04103425055</td>
+            </tr>
+            <tr class="border-b border-white/20 hover:bg-white/10">
+              <td class="py-2 px-4">9</td>
+              <td class="py-2 px-4">Keyza Putri Zakaria</td>
+              <td class="py-2 px-4">04103425041</td>
+            </tr>
+            <tr class="border-b border-white/20 hover:bg-white/10" 
+    onclick="window.open('https://www.instagram.com/mianty_rauf/', '_blank')">
+              <td class="py-2 px-4">10</td>
+              <td class="py-2 px-4">Mianti H. Rauf</td>
+              <td class="py-2 px-4">04103425003</td>
+            </tr>
+           <tr class="border-b border-white/20 hover:bg-white/10" 
+    onclick="window.open('https://www.instagram.com/novikatili_/', '_blank')">
+              <td class="py-2 px-4">11</td>
+              <td class="py-2 px-4">Noviani Resya Katili</td>
+              <td class="py-2 px-4">04103425020</td>
+            </tr>
+            <tr class="border-b border-white/20 hover:bg-white/10" 
+    onclick="window.open('https://www.instagram.com/aidallmn/', '_blank')">
+              <td class="py-2 px-4">12</td>
+              <td class="py-2 px-4">Nur Aida Lutfiah Ma'duni</td>
+              <td class="py-2 px-4">04103425024</td>
+            </tr>
+            <tr class="border-b border-white/20 hover:bg-white/10" 
+    onclick="window.open('https://www.instagram.com/nryyishere._/', '_blank')">
+              <td class="py-2 px-4">13</td>
+              <td class="py-2 px-4">Nurhayati Bau</td>
+              <td class="py-2 px-4">04103425011</td>
+            </tr>
+           <tr class="border-b border-white/20 hover:bg-white/10" 
+    onclick="window.open('https://www.instagram.com/nndlmlo_22/', '_blank')">
+              <td class="py-2 px-4">14</td>
+              <td class="py-2 px-4">Ramla Septiani Lomalo</td>
+              <td class="py-2 px-4">04103425031</td>
+            </tr>
+            <tr class="border-b border-white/20 hover:bg-white/10" 
+    onclick="window.open('https://www.instagram.com/revalinns/', '_blank')">
+              <td class="py-2 px-4">15</td>
+              <td class="py-2 px-4">Revalina Nusi</td>
+              <td class="py-2 px-4">04103425025</td>
+            </tr>
+            <tr class="border-b border-white/20 hover:bg-white/10">
+              <td class="py-2 px-4">16</td>
+              <td class="py-2 px-4">Rofiiah Nabiila Lahay</td>
+              <td class="py-2 px-4">04103425008</td>
+            </tr>
+           <tr class="border-b border-white/20 hover:bg-white/10" 
+    onclick="window.open('https://www.instagram.com/pterimkuu_/', '_blank')">
+              <td class="py-2 px-4">17</td>
+              <td class="py-2 px-4">Sabrina Putri Maku</td>
+              <td class="py-2 px-4">04103425037</td>
+            </tr>
+            <tr class="border-b border-white/20 hover:bg-white/10" 
+    onclick="window.open('https://www.instagram.com/zuleyykaa_/', '_blank')">
+              <td class="py-2 px-4">18</td>
+              <td class="py-2 px-4">Zuleyka Adiyah Salwah</td>
+              <td class="py-2 px-4">04103425007</td>
+            </tr>
+
+
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+   <body class="bg-gradient-to-br from-indigo-900 via-purple-900 to-blue-900 min-h-screen text-white">
+
+ <!-- JADWAL KULIAH -->
+<section class="mt-12 bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-8 max-w-6xl mx-auto mb-16 shadow-2xl">
+  <h2 class="text-4xl font-bold text-center mb-10">📚 Jadwal Kuliah Kelas B</h2>
+
+  <div class="space-y-10">
+
+    <!-- HARI SENIN -->
+    <div>
+      <h3 class="mb-2 font-semibold text-xl text-white uppercase tracking-wide">Senin</h3>
+      <div class="overflow-hidden shadow-lg ring-1 ring-black ring-opacity-5 sm:rounded-lg">
+        <div class="overflow-x-auto">
+          <table class="min-w-full table-auto text-sm text-center whitespace-nowrap">
+            <thead class="bg-slate-100 text-gray-800 uppercase text-xs">
+              <tr>
+                <th class="py-3 px-2">No</th>
+                <th class="py-3 px-2">Mata Kuliah</th>
+                <th class="py-3 px-2">SKS</th>
+                <th class="py-3 px-2">Kelas</th>
+                <th class="py-3 px-2">Mulai</th>
+                <th class="py-3 px-2">Selesai</th>
+                <th class="py-3 px-2">Ruangan</th>
+                <th class="py-3 px-2">Tim Pengajar</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-300 bg-white/20">
+              <tr class="hover:bg-white/30 transition">
+                <td class="py-3 px-2">1</td>
+                <td class="py-3 px-2">Aljabar Linier dan Matriks</td>
+                <td class="py-3 px-2">3</td>
+                <td class="py-3 px-2">B</td>
+                <td class="py-3 px-2">14:41</td>
+                <td class="py-3 px-2">17:10</td>
+                <td class="py-3 px-2">RL.I.2</td>
+                <td class="py-3 px-2 text-left">
+                  <ol class="list-decimal list-inside space-y-1">
+                    <li>Dosen 1</li>
+                    <li>Dosen 2</li>
+                  </ol>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- HARI SELASA -->
+    <div>
+      <h3 class="mb-2 font-semibold text-xl text-white uppercase tracking-wide">Selasa</h3>
+      <div class="overflow-hidden shadow-lg ring-1 ring-black ring-opacity-5 sm:rounded-lg">
+        <div class="overflow-x-auto">
+          <table class="min-w-full table-auto text-sm text-center whitespace-nowrap">
+            <thead class="bg-slate-100 text-gray-800 uppercase text-xs">
+              <tr>
+                <th class="py-3 px-2">No</th>
+                <th class="py-3 px-2">Mata Kuliah</th>
+                <th class="py-3 px-2">SKS</th>
+                <th class="py-3 px-2">Kelas</th>
+                <th class="py-3 px-2">Mulai</th>
+                <th class="py-3 px-2">Selesai</th>
+                <th class="py-3 px-2">Ruangan</th>
+                <th class="py-3 px-2">Tim Pengajar</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-300 bg-white/20">
+              <tr class="hover:bg-white/30 transition">
+                <td class="py-3 px-2">1</td>
+                <td class="py-3 px-2">Kimia Dasar</td>
+                <td class="py-3 px-2">2</td>
+                <td class="py-3 px-2">B</td>
+                <td class="py-3 px-2">08:41</td>
+                <td class="py-3 px-2">10:20</td>
+                <td class="py-3 px-2">RL.III.8</td>
+                <td class="py-3 px-2 text-left">
+                  <ol class="list-decimal list-inside space-y-1">
+                    <li>Dosen 1</li>
+                    <li>Dosen 2</li>
+                  </ol>
+                </td>
+              </tr>
+              <tr class="hover:bg-white/30 transition">
+                <td class="py-3 px-2">2</td>
+                <td class="py-3 px-2">Biologi Umum</td>
+                <td class="py-3 px-2">2</td>
+                <td class="py-3 px-2">B</td>
+                <td class="py-3 px-2">13:00</td>
+                <td class="py-3 px-2">14:40</td>
+                <td class="py-3 px-2">RL.III.1</td>
+                <td class="py-3 px-2 text-left">
+                  <ol class="list-decimal list-inside space-y-1">
+                    <li>Dosen 1</li>
+                    <li>Dosen 2</li>
+                  </ol>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- HARI RABU -->
+    <div>
+      <h3 class="mb-2 font-semibold text-xl text-white uppercase tracking-wide">Rabu</h3>
+      <div class="overflow-hidden shadow-lg ring-1 ring-black ring-opacity-5 sm:rounded-lg">
+        <div class="overflow-x-auto">
+          <table class="min-w-full table-auto text-sm text-center whitespace-nowrap">
+            <thead class="bg-slate-100 text-gray-800 uppercase text-xs">
+              <tr>
+                <th class="py-3 px-2">No</th>
+                <th class="py-3 px-2">Mata Kuliah</th>
+                <th class="py-3 px-2">SKS</th>
+                <th class="py-3 px-2">Kelas</th>
+                <th class="py-3 px-2">Mulai</th>
+                <th class="py-3 px-2">Selesai</th>
+                <th class="py-3 px-2">Ruangan</th>
+                <th class="py-3 px-2">Tim Pengajar</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-300 bg-white/20">
+              <tr class="hover:bg-white/30 transition">
+                <td class="py-3 px-2">1</td>
+                <td class="py-3 px-2">Algoritma dan Pemrograman</td>
+                <td class="py-3 px-2">3</td>
+                <td class="py-3 px-2">B</td>
+                <td class="py-3 px-2">07:00</td>
+                <td class="py-3 px-2">08:40</td>
+                <td class="py-3 px-2">Lab. Komputasi Matematika</td>
+                <td class="py-3 px-2 text-left">
+                  <ol class="list-decimal list-inside space-y-1">
+                    <li>Dosen 1</li>
+                    <li>Dosen 2</li>
+                  </ol>
+                </td>
+              </tr>
+              <tr class="hover:bg-white/30 transition">
+                <td class="py-3 px-2">2</td>
+                <td class="py-3 px-2">Metode Statistika</td>
+                <td class="py-3 px-2">3</td>
+                <td class="py-3 px-2">B</td>
+                <td class="py-3 px-2">09:31</td>
+                <td class="py-3 px-2">11:59</td>
+                <td class="py-3 px-2">RL.III.7</td>
+                <td class="py-3 px-2 text-left">
+                  <ol class="list-decimal list-inside space-y-1">
+                    <li>Dosen 1</li>
+                    <li>Dosen 2</li>
+                  </ol>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- HARI KAMIS -->
+    <div>
+      <h3 class="mb-2 font-semibold text-xl text-white uppercase tracking-wide">Kamis</h3>
+      <div class="overflow-hidden shadow-lg ring-1 ring-black ring-opacity-5 sm:rounded-lg">
+        <div class="overflow-x-auto">
+          <table class="min-w-full table-auto text-sm text-center whitespace-nowrap">
+            <thead class="bg-slate-100 text-gray-800 uppercase text-xs">
+              <tr>
+                <th class="py-3 px-2">No</th>
+                <th class="py-3 px-2">Mata Kuliah</th>
+                <th class="py-3 px-2">SKS</th>
+                <th class="py-3 px-2">Kelas</th>
+                <th class="py-3 px-2">Mulai</th>
+                <th class="py-3 px-2">Selesai</th>
+                <th class="py-3 px-2">Ruangan</th>
+                <th class="py-3 px-2">Tim Pengajar</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-300 bg-white/20">
+              <tr class="hover:bg-white/30 transition">
+                <td class="py-3 px-2">1</td>
+                <td class="py-3 px-2">Fisika Dasar</td>
+                <td class="py-3 px-2">2</td>
+                <td class="py-3 px-2">B</td>
+                <td class="py-3 px-2">10:21</td>
+                <td class="py-3 px-2">00:00 / ?</td>
+                <td class="py-3 px-2">RL.III.3</td>
+                <td class="py-3 px-2 text-left">
+                  <ol class="list-decimal list-inside space-y-1">
+                    <li>Dosen 1</li>
+                    <li>Dosen 2</li>
+                  </ol>
+                </td>
+              </tr>
+              
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- HARI JUMAT -->
+    <div>
+      <h3 class="mb-2 font-semibold text-xl text-white uppercase tracking-wide">Jumat</h3>
+      <div class="overflow-hidden shadow-lg ring-1 ring-black ring-opacity-5 sm:rounded-lg">
+        <div class="overflow-x-auto">
+          <table class="min-w-full table-auto text-sm text-center whitespace-nowrap">
+            <thead class="bg-slate-100 text-gray-800 uppercase text-xs">
+              <tr>
+                <th class="py-3 px-2">No</th>
+                <th class="py-3 px-2">Mata Kuliah</th>
+                <th class="py-3 px-2">SKS</th>
+                <th class="py-3 px-2">Kelas</th>
+                <th class="py-3 px-2">Mulai</th>
+                <th class="py-3 px-2">Selesai</th>
+                <th class="py-3 px-2">Ruangan</th>
+                <th class="py-3 px-2">Tim Pengajar</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-300 bg-white/20">
+              <tr class="hover:bg-white/30 transition">
+                <td class="py-3 px-2">1</td>
+                <td class="py-3 px-2">Kalkulus</td>
+                <td class="py-3 px-2">3</td>
+                <td class="py-3 px-2">B</td>
+                <td class="py-3 px-2">13:00</td>
+                <td class="py-3 px-2">15:30</td>
+                <td class="py-3 px-2">Lab. Multimedia Matematika</td>
+                <td class="py-3 px-2 text-left">
+                  <ol class="list-decimal list-inside space-y-1">
+                    <li>Dosen 1</li>
+                    <li>Dosen 2</li>
+                  </ol>
+                </td>
+              </tr>
+              <tr class="hover:bg-white/30 transition">
+                <td class="py-3 px-2">2</td>
+                <td class="py-3 px-2">Pancasila</td>
+                <td class="py-3 px-2">2</td>
+                <td class="py-3 px-2">B</td>
+                <td class="py-3 px-2">15:31</td>
+                <td class="py-3 px-2">17:10</td>
+                <td class="py-3 px-2">RL.I.7</td>
+                <td class="py-3 px-2 text-left">
+                  <ol class="list-decimal list-inside space-y-1">
+                    <li>Dosen 1</li>
+                    <li>Dosen 2</li>
+                  </ol>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+</body>
+</html>
